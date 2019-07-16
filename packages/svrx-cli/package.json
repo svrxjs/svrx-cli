@@ -2,13 +2,6 @@
   "name": "svrx-cli",
   "version": "0.0.3",
   "description": "CLI for svrx",
-  "keywords": [
-    "svrx",
-    "cli",
-    "live-reload",
-    "mock"
-  ],
-  "license": "MIT",
   "bin": {
     "svrx": "bin/svrx.js"
   },
@@ -34,5 +27,21 @@
   },
   "devDependencies": {
     "expect.js": "^0.3.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/x-orpheus/svrx-cli.git"
+  },
+  "keywords": [
+    "svrx",
+    "cli",
+    "mock",
+    "dev-server"
+  ],
+  "author": "x-orpheus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/x-orpheus/svrx-cli/issues"
+  },
+  "homepage": "https://svrx.gitbook.io/docs/"
 }

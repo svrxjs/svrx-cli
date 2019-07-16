@@ -1,5 +1,6 @@
 {
   "name": "root",
+  "description": "CLI tool for svrx.",
   "private": true,
   "scripts": {
     "lint": "eslint \"**/*.js\"",
@@ -33,5 +34,22 @@
       "pre-commit": "npm run lint",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
-  }
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/x-orpheus/svrx-cli.git"
+  },
+  "keywords": [
+    "svrx",
+    "cli",
+    "mock",
+    "dev-server"
+  ],
+  "author": "x-orpheus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/x-orpheus/svrx-cli/issues"
+  },
+  "homepage": "https://svrx.gitbook.io/docs/"
 }
