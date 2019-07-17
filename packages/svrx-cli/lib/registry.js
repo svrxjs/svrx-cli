@@ -70,7 +70,7 @@ const install = async (version) => {
       fs.copySync(svrxRoot, destFolder);
       fs.copySync(path.resolve(tmpPath, 'node_modules'), destFolderDependency);
       if (spinner) spinner();
-      resolve();
+      resolve(installVersion);
     });
   } catch (e) {
     if (spinner) spinner();
