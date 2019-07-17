@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "description": "CLI tool for svrx.",
+  "description": "CLI tool for svrx",
   "private": true,
   "scripts": {
     "lint": "eslint \"**/*.js\"",
