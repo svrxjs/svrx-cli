@@ -1,5 +1,7 @@
 # svrx-cli
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/x-orpheus/svrx-cli.svg)](https://greenkeeper.io/)
+
 CLI tool for svrx.
 
 ## Install
