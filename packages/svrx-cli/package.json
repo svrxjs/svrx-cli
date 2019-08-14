@@ -14,12 +14,12 @@
     "bin"
   ],
   "dependencies": {
-    "commander": "^2.20.0",
+    "commander": "^3.0.0",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.11",
     "mkdirp": "^0.5.1",
     "semver": "^6.0.0",
-    "svrx-util": "^0.0.4",
+    "svrx-util": "^0.0.6",
     "tmp": "^0.1.0",
     "update-notifier": "^3.0.0",
     "user-home": "^2.0.0",
