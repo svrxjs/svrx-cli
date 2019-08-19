@@ -13,7 +13,7 @@ const getVersions = async () => {
     return _.chain(result)
       .values()
       .first()
-      .value().versions.filter(v => v.indexOf('-') === -1);
+      .value().versions.filter((v) => v.indexOf('-') === -1);
   } catch (e) {
     if (spinner) spinner();
     logger.error(e);
