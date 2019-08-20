@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
-    "@commitlint/config-conventional": "^7.5.0",
+    "@commitlint/config-conventional": "^8.1.0",
     "@svrx/eslint-config": "0.0.2",
     "coveralls": "^3.0.0",
     "eslint": "^6.2.0",
