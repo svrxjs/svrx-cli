@@ -11,7 +11,8 @@
   },
   "files": [
     "lib",
-    "bin"
+    "bin",
+    "npm-shrinkwrap.json"
   ],
   "dependencies": {
     "commander": "^2.20.0",
