@@ -77,10 +77,8 @@ const commands = {
   },
   install: {
     description: 'Download and install a specific svrx < version >',
-    exec: async (version) => {
-      if (typeof version !== 'string') {
-        version = undefined;
-      }
+    exec: async (params = []) => {
+      const version = cmds.length > 0 ? params[0] : undefined;
 
       try {
         await Manager.install(version);
@@ -160,7 +158,7 @@ if (options.h || options.help) {
 } else {
   const cmd = cmds.length > 0 ? cmds[0] : 'serve'; // default cmd is 'serve'
   if (commands[cmd]) {
-    commands[cmd].exec();
+    commands[cmd].exec(cmds.slice(1));
   } else {
     help();
   }
