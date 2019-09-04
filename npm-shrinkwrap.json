@@ -2011,9 +2011,9 @@
       }
     },
     "@svrx/eslint-config": {
-      "version": "0.0.2",
-      "resolved": "https://registry.npmjs.org/@svrx/eslint-config/-/eslint-config-0.0.2.tgz",
-      "integrity": "sha512-Ar/3P3j+YYU2KgQov4vDDTJJ+9P0MQ7mMmzG6dRT+WfUCzaB05PH0LYs4CwqRRIGTG7Xrc45s232HqX+/A1Tzw==",
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/@svrx/eslint-config/-/eslint-config-1.0.0.tgz",
+      "integrity": "sha512-2wi2BSiGtJh3IuJThg8tV7k90Cd8bW4HI8MfPgi9eiggkEMZO4jZzB1Mhq8ckqN5qwWIgUsfUp1ARgSO7VNYNw==",
       "dev": true,
       "requires": {
         "eslint-config-airbnb-base": "^14.0.0",
