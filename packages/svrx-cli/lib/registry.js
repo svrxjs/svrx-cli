@@ -4,6 +4,7 @@ const _ = require('lodash');
 const tmp = require('tmp');
 const fs = require('fs-extra');
 const config = require('./config');
+const local = require('./local');
 
 const getVersions = async () => {
   const spinner = logger.progress('Searching versions...');
@@ -46,6 +47,9 @@ const install = async (version) => {
   versions.reverse();
 
   const installVersion = version || versions[0];
+
+  if (local.exists(installVersion)) return installVersion; // already installed
+
   const tmpObj = tmp.dirSync();
   const tmpPath = tmpObj.name;
   const options = {
