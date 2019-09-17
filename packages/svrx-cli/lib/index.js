@@ -1,4 +1,4 @@
-const path = require('path');
+// const path = require('path');
 const { logger } = require('svrx-util');
 const config = require('./config');
 const local = require('./local');
@@ -6,19 +6,21 @@ const registry = require('./registry');
 
 class Manager {
   constructor() {
+    this.Manager = Manager;
     try {
       config.createDirs();
-      this.setWorkRoot();
+      // this.setWorkRoot();
     } catch (e) {
       logger.error(e);
       process.exit(1);
     }
+    // @todo download latest
   }
 
-  setWorkRoot(dir = '') {
-    this.WORK_ROOT = path.resolve(process.cwd(), dir);
-    config.setWorkRoot(this.WORK_ROOT);
-  }
+  // setWorkRoot(dir = '') {
+  //   this.WORK_ROOT = path.resolve(process.cwd(), dir);
+  //   config.setWorkRoot(this.WORK_ROOT);
+  // }
 
   loadConfigFile() {
     if (this.loaded) return;
