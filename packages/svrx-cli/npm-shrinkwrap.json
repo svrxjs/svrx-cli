@@ -735,9 +735,9 @@
       "integrity": "sha1-PFMZQukIwml8DsNEhYwobHygpgo="
     },
     "svrx-util": {
-      "version": "0.0.9",
-      "resolved": "https://registry.npmjs.org/svrx-util/-/svrx-util-0.0.9.tgz",
-      "integrity": "sha512-29on8G0Pj8s8LsxwNo4kwKTvivWLKTMdyn4f9Zxl0L/VvluxEYiK4cTGmO8fRZYIhmPrAnq8HjuNqE4R/r1yFw==",
+      "version": "0.0.10",
+      "resolved": "https://registry.npmjs.org/svrx-util/-/svrx-util-0.0.10.tgz",
+      "integrity": "sha512-VcroIhQN1LZ+79rK8zTH+MFA6YSclfILpAWffYjEfOWqGw72h9uwyK9JBx+lsQCO6m6oF0wLOzOpZVEXeRhcaQ==",
       "requires": {
         "chalk": "2.4.2",
         "cosmiconfig": "5.2.1",
