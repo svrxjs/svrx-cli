@@ -64,6 +64,7 @@ const install = async (version) => {
       loaded: false,
       prefix: tmpPath,
     },
+    VERSIONS_ROOT: config.VERSIONS_ROOT,
   };
 
   const spinner = logger.progress('Installing svrx core package...');
@@ -88,8 +89,8 @@ const install = async (version) => {
 const getInstallTask = async (options = {}) => {
   const result = await npm.install(options);
   const svrxRoot = path.resolve(options.path, 'node_modules/svrx');
-  const destFolder = path.resolve(config.VERSIONS_ROOT, result.version);
-  const destFolderDependency = path.resolve(config.VERSIONS_ROOT, result.version, 'node_modules');
+  const destFolder = path.resolve(options.VERSIONS_ROOT, result.version);
+  const destFolderDependency = path.resolve(options.VERSIONS_ROOT, result.version, 'node_modules');
 
   return new Promise((resolve) => {
     fs.copySync(svrxRoot, destFolder);
