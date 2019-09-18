@@ -3,6 +3,7 @@ const { npm, logger } = require('svrx-util');
 const _ = require('lodash');
 const tmp = require('tmp');
 const fs = require('fs-extra');
+const { fork } = require('child_process');
 const config = require('./config');
 const local = require('./local');
 
@@ -50,6 +51,9 @@ const install = async (version) => {
 
   if (local.exists(installVersion)) return installVersion; // already installed
 
+  const task = fork(path.join(__dirname, './task.js'), {
+    silent: true,
+  });
   const tmpObj = tmp.dirSync();
   const tmpPath = tmpObj.name;
   const options = {
@@ -65,25 +69,37 @@ const install = async (version) => {
   const spinner = logger.progress('Installing svrx core package...');
 
   try {
-    const result = await npm.install(options);
-    const svrxRoot = path.resolve(tmpPath, 'node_modules/svrx');
-    const destFolder = path.resolve(config.VERSIONS_ROOT, result.version);
-    const destFolderDependency = path.resolve(config.VERSIONS_ROOT, result.version, 'node_modules');
-
-    return new Promise((resolve) => {
-      fs.copySync(svrxRoot, destFolder);
-      fs.copySync(path.resolve(tmpPath, 'node_modules'), destFolderDependency);
-      if (spinner) spinner();
-      resolve(installVersion);
+    const installedVersion = await new Promise((resolve, reject) => {
+      task.on('error', reject);
+      task.on('message', (ret) => {
+        if (ret.error) reject(new Error(ret.error));
+        else resolve(ret);
+      });
+      task.send(options);
     });
+    if (spinner) spinner();
+    return installedVersion;
   } catch (e) {
     if (spinner) spinner();
-    logger.error(e);
-    return null;
+    throw e;
   }
 };
 
+const getInstallTask = async (options = {}) => {
+  const result = await npm.install(options);
+  const svrxRoot = path.resolve(options.path, 'node_modules/svrx');
+  const destFolder = path.resolve(config.VERSIONS_ROOT, result.version);
+  const destFolderDependency = path.resolve(config.VERSIONS_ROOT, result.version, 'node_modules');
+
+  return new Promise((resolve) => {
+    fs.copySync(svrxRoot, destFolder);
+    fs.copySync(path.resolve(options.path, 'node_modules'), destFolderDependency);
+    resolve(options.version);
+  });
+};
+
 module.exports = {
+  getInstallTask,
   install,
   getVersions,
   getTags,
