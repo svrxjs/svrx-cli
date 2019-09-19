@@ -41,10 +41,11 @@ const getTags = async () => {
 /**
  * install a specific version of svrx
  * @param version
+ * @param options
  * @returns {Promise<*>}
  */
-const install = async (version) => {
-  const spinner = logger.progress('Installing svrx core package...');
+const install = async (version, options = {}) => {
+  const spinner = options.silent ? null : logger.progress('Installing svrx core package...');
   const task = fork(path.join(__dirname, './task.js'), {
     silent: true,
   });
