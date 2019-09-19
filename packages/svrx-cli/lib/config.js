@@ -35,10 +35,6 @@ class Config {
     });
   }
 
-  // setWorkRoot(dir) {
-  //   this.WORK_ROOT = dir;
-  // }
-
   loadFile() {
     this.addConfigs(rcFileRead());
   }

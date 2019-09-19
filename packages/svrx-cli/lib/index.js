@@ -9,18 +9,11 @@ class Manager {
     this.Manager = Manager;
     try {
       config.createDirs();
-      // this.setWorkRoot();
     } catch (e) {
       logger.error(e);
       process.exit(1);
     }
-    // @todo download latest
   }
-
-  // setWorkRoot(dir = '') {
-  //   this.WORK_ROOT = path.resolve(process.cwd(), dir);
-  //   config.setWorkRoot(this.WORK_ROOT);
-  // }
 
   loadConfigFile() {
     if (this.loaded) return;
@@ -57,8 +50,8 @@ class Manager {
     return registry.getTags();
   }
 
-  static async install(version) {
-    return registry.install(version);
+  static async install(version, options = {}) {
+    return registry.install(version, options);
   }
 }
 

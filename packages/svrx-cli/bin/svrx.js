@@ -92,7 +92,12 @@ const commands = {
     description: 'Start a develop server. This is the default command',
     exec: async () => {
       const svrx = await prepareSvrx();
-      svrx.start();
+      svrx.start(() => {
+        // check and install latest version @background
+        Manager.install(null, {
+          silent: true,
+        });
+      });
     },
   },
 };
