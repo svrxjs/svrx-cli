@@ -44,16 +44,36 @@ const getTags = async () => {
  * @returns {Promise<*>}
  */
 const install = async (version) => {
+  const spinner = logger.progress('Installing svrx core package...');
+  const task = fork(path.join(__dirname, './task.js'), {
+    silent: true,
+  });
+
+  try {
+    const installedVersion = await new Promise((resolve, reject) => {
+      task.on('error', reject);
+      task.on('message', (ret) => {
+        if (ret.error) reject(new Error(ret.error));
+        else resolve(ret);
+      });
+      task.send({ version, versionsRoot: config.VERSIONS_ROOT });
+    });
+    if (spinner) spinner();
+    return installedVersion;
+  } catch (e) {
+    if (spinner) spinner();
+    throw e;
+  }
+};
+
+const getInstallTask = async ({ version, versionsRoot }) => {
   const versions = await getVersions();
   versions.reverse();
 
   const installVersion = version || versions[0];
 
-  if (local.exists(installVersion)) return installVersion; // already installed
+  if (local.exists(installVersion, versionsRoot)) return installVersion; // already installed
 
-  const task = fork(path.join(__dirname, './task.js'), {
-    silent: true,
-  });
   const tmpObj = tmp.dirSync();
   const tmpPath = tmpObj.name;
   const options = {
@@ -64,38 +84,17 @@ const install = async (version) => {
       loaded: false,
       prefix: tmpPath,
     },
-    VERSIONS_ROOT: config.VERSIONS_ROOT,
   };
 
-  const spinner = logger.progress('Installing svrx core package...');
-
-  try {
-    const installedVersion = await new Promise((resolve, reject) => {
-      task.on('error', reject);
-      task.on('message', (ret) => {
-        if (ret.error) reject(new Error(ret.error));
-        else resolve(ret);
-      });
-      task.send(options);
-    });
-    if (spinner) spinner();
-    return installedVersion;
-  } catch (e) {
-    if (spinner) spinner();
-    throw e;
-  }
-};
-
-const getInstallTask = async (options = {}) => {
   const result = await npm.install(options);
-  const svrxRoot = path.resolve(options.path, 'node_modules/svrx');
-  const destFolder = path.resolve(options.VERSIONS_ROOT, result.version);
-  const destFolderDependency = path.resolve(options.VERSIONS_ROOT, result.version, 'node_modules');
+  const svrxRoot = path.resolve(tmpPath, 'node_modules/svrx');
+  const destFolder = path.resolve(versionsRoot, result.version);
+  const destFolderDependency = path.resolve(versionsRoot, result.version, 'node_modules');
 
   return new Promise((resolve) => {
     fs.copySync(svrxRoot, destFolder);
-    fs.copySync(path.resolve(options.path, 'node_modules'), destFolderDependency);
-    resolve(options.version);
+    fs.copySync(path.resolve(tmpPath, 'node_modules'), destFolderDependency);
+    resolve(installVersion);
   });
 };
 
