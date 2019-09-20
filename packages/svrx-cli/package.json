@@ -12,6 +12,7 @@
   "files": [
     "lib",
     "bin",
+    "script",
     "npm-shrinkwrap.json"
   ],
   "scripts": {
