@@ -1,6 +1,6 @@
 {
   "name": "svrx-cli",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "CLI for svrx",
   "bin": {
     "svrx": "bin/svrx.js"
@@ -12,6 +12,7 @@
   "files": [
     "lib",
     "bin",
+    "script",
     "npm-shrinkwrap.json"
   ],
   "scripts": {
