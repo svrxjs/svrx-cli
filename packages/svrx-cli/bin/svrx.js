@@ -122,7 +122,7 @@ const help = async (cmd) => {
     console.log(
       ''.padEnd(PAD_START),
       '-v, --version'.padEnd(PAD_END),
-      'Version info of svrx-cli and currently used svrx',
+      'Version info of cli and currently used svrx',
     );
     console.log(
       ''.padEnd(PAD_START),

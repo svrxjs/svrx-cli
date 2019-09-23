@@ -1,9 +1,12 @@
 {
-  "name": "svrx-cli",
+  "name": "@svrx/cli",
   "version": "0.0.8",
   "description": "CLI for svrx",
   "bin": {
     "svrx": "bin/svrx.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "main": "bin/svrx.js",
   "directories": {
