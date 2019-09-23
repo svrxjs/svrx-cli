@@ -4,7 +4,7 @@
   ],
   "npmClient": "npm",
   "changelog": {
-    "repo": "x-orpheus/svrx-cli",
+    "repo": "svrxjs/svrx-cli",
     "labels": {
       "PR: new feature": ":rocket: New Feature",
       "PR: breaking change": ":boom: Breaking Change",
