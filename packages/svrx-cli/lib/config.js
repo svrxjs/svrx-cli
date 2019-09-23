@@ -1,7 +1,7 @@
 const userHome = require('user-home');
 const path = require('path');
 const mkdirp = require('mkdirp');
-const { rcFileRead } = require('svrx-util');
+const { rcFileRead } = require('@svrx/util');
 
 class Config {
   constructor() {

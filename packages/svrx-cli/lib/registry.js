@@ -1,5 +1,5 @@
 const path = require('path');
-const { npm, logger } = require('svrx-util');
+const { npm, logger } = require('@svrx/util');
 const _ = require('lodash');
 const tmp = require('tmp');
 const fs = require('fs-extra');

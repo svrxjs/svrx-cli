@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 const parse = require('yargs-parser');
-const { logger } = require('svrx-util');
+const { logger } = require('@svrx/util');
 const updateNotifier = require('update-notifier');
 const pkg = require('../package.json');
 const Manager = require('../lib');
