@@ -36,7 +36,7 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/x-orpheus/svrx-cli.git"
+    "url": "git+https://github.com/svrxjs/svrx-cli.git"
   },
   "keywords": [
     "svrx",
@@ -44,10 +44,10 @@
     "mock",
     "dev-server"
   ],
-  "author": "x-orpheus",
+  "author": "svrxjs",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/x-orpheus/svrx-cli/issues"
+    "url": "https://github.com/svrxjs/svrx-cli/issues"
   },
-  "homepage": "https://svrx.gitbook.io/docs/"
+  "homepage": "https://svrx.io/"
 }

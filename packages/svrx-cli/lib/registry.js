@@ -1,5 +1,5 @@
 const path = require('path');
-const { npm, logger } = require('svrx-util');
+const { npm, logger } = require('@svrx/util');
 const _ = require('lodash');
 const tmp = require('tmp');
 const fs = require('fs-extra');
@@ -10,7 +10,7 @@ const local = require('./local');
 const getVersions = async () => {
   const spinner = logger.progress('Searching versions...');
   try {
-    const result = await npm.view(['svrx', 'versions']);
+    const result = await npm.view(['@svrx/svrx', 'versions']);
     if (spinner) spinner();
     return _.chain(result)
       .values()
@@ -26,7 +26,7 @@ const getVersions = async () => {
 const getTags = async () => {
   const spinner = logger.progress('Searching tags...');
   try {
-    const result = await npm.view(['svrx', 'dist-tags']);
+    const result = await npm.view(['@svrx/svrx', 'dist-tags']);
     if (spinner) spinner();
     return _.chain(result)
       .values()
@@ -78,7 +78,7 @@ const getInstallTask = async ({ version, versionsRoot }) => {
   const tmpObj = tmp.dirSync();
   const tmpPath = tmpObj.name;
   const options = {
-    name: 'svrx',
+    name: '@svrx/svrx',
     version: installVersion,
     path: tmpPath,
     npmLoad: {
@@ -88,7 +88,7 @@ const getInstallTask = async ({ version, versionsRoot }) => {
   };
 
   const result = await npm.install(options);
-  const svrxRoot = path.resolve(tmpPath, 'node_modules/svrx');
+  const svrxRoot = path.resolve(tmpPath, 'node_modules/@svrx/svrx');
   const destFolder = path.resolve(versionsRoot, result.version);
   const destFolderDependency = path.resolve(versionsRoot, result.version, 'node_modules');
 

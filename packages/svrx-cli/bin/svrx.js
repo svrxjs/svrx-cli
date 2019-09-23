@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 const parse = require('yargs-parser');
-const { logger } = require('svrx-util');
+const { logger } = require('@svrx/util');
 const updateNotifier = require('update-notifier');
 const pkg = require('../package.json');
 const Manager = require('../lib');
@@ -122,7 +122,7 @@ const help = async (cmd) => {
     console.log(
       ''.padEnd(PAD_START),
       '-v, --version'.padEnd(PAD_END),
-      'Version info of svrx-cli and currently used svrx',
+      'Version info of cli and currently used svrx',
     );
     console.log(
       ''.padEnd(PAD_START),

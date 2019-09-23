@@ -1,5 +1,5 @@
 // const path = require('path');
-const { logger } = require('svrx-util');
+const { logger } = require('@svrx/util');
 const config = require('./config');
 const local = require('./local');
 const registry = require('./registry');
