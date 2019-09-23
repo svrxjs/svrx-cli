@@ -1,4 +1,4 @@
-# svrx-cli
+# @svrx/cli
 
 CLI tool for svrx.
 
