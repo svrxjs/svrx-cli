@@ -20,7 +20,8 @@ const getVersions = (versionsRoot) => {
 module.exports = {
   getLatestVersion: (versionsRoot) => {
     const versions = getVersions(versionsRoot);
-    versions.sort((v1, v2) => semver.lt(v1, v2));
+    versions.sort((v1, v2) => (semver.lt(v1, v2) ? 1 : -1));
+
     const noBetaVersions = versions.filter((v) => v.indexOf('-') === -1);
     if (noBetaVersions.length > 0) return noBetaVersions[0];
     return versions.length > 0 ? versions[0] : null;
