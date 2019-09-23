@@ -1,6 +1,6 @@
 {
   "name": "@svrx/cli",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "CLI for svrx",
   "bin": {
     "svrx": "bin/svrx.js"
@@ -22,12 +22,12 @@
     "postinstall": "node ./script/postinstall.js"
   },
   "dependencies": {
+    "@svrx/util": "^1.0.2",
     "commander": "^2.20.0",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.15",
     "mkdirp": "^0.5.1",
     "semver": "^6.0.0",
-    "@svrx/util": "^1.0.2",
     "tmp": "^0.1.0",
     "update-notifier": "^3.0.0",
     "user-home": "^2.0.0",
