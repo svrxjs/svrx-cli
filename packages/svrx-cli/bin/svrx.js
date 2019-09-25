@@ -6,6 +6,8 @@ const updateNotifier = require('update-notifier');
 const pkg = require('../package.json');
 const Manager = require('../lib');
 
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 const PAD_START = 4;
 const PAD_END = 20;
 const printErrorAndExit = (error) => {
