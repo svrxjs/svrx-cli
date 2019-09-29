@@ -115,6 +115,7 @@ const commands = {
         // check and install latest version @background
         Manager.install(null, {
           silent: true,
+          autoClean: true,
         });
       });
     },

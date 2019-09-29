@@ -32,7 +32,7 @@ class Manager {
     const version = cliVersion || rcVersion || (await local.getLatestVersion());
 
     if (!version || !local.exists(version)) {
-      const installedVersion = await registry.install(version);
+      const installedVersion = await registry.install(version, { autoClean: true });
       return local.load(installedVersion, optionsFromCli, inlineOptions);
     }
     return local.load(version, optionsFromCli, inlineOptions);
