@@ -78,13 +78,30 @@ const commands = {
     },
   },
   install: {
-    description: 'Download and install a specific svrx < version >',
+    description: 'Download and install a specific < version > of svrx ',
     exec: async (params = []) => {
       const version = cmds.length > 0 ? params[0] : undefined;
 
       try {
         await Manager.install(version);
         logger.notify(`Successfully installed svrx@${version || 'latest'}`);
+      } catch (e) {
+        printErrorAndExit(e);
+      }
+    },
+  },
+  remove: {
+    description: 'Remove a specific < version > of svrx from local',
+    exec: async (params = []) => {
+      const version = cmds.length > 0 ? params[0] : undefined;
+
+      if (!version) {
+        logger.notify('Please specific a version to remove, eg: svrx remove 1.0.0');
+        return;
+      }
+      try {
+        await Manager.remove(version);
+        logger.notify(`Successfully removed svrx@${version} from local`);
       } catch (e) {
         printErrorAndExit(e);
       }

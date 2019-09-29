@@ -53,6 +53,10 @@ class Manager {
   static async install(version, options = {}) {
     return registry.install(version, options);
   }
+
+  static async remove(version) {
+    return local.remove(version);
+  }
 }
 
 module.exports = Manager;

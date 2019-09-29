@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const semver = require('semver');
+const rimraf = require('rimraf');
 const config = require('./config');
 
 const getSvrxPath = (version, versionsRoot) => path.resolve(
@@ -34,5 +35,14 @@ module.exports = {
   load: (version, optionsFromCli = {}, inlineOptions = {}) => new Promise((resolve) => {
     const Svrx = require(getSvrxPath(version)); // eslint-disable-line
     resolve(new Svrx(inlineOptions, optionsFromCli));
+  }),
+
+  remove: (version) => new Promise((resolve) => {
+    const versionPath = path.resolve(config.VERSIONS_ROOT, version);
+    if (fs.existsSync(versionPath)) {
+      rimraf(versionPath, resolve);
+    } else {
+      throw new Error(`Version ${version} is not exists or not a valid version string('x.x.x')`);
+    }
   }),
 };
