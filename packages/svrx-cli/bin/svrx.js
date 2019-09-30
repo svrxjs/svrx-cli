@@ -116,6 +116,7 @@ const commands = {
         Manager.install(null, {
           silent: true,
           autoClean: true,
+          current: svrx.Svrx.getCurrentVersion(),
         });
       });
     },
