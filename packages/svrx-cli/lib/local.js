@@ -18,6 +18,14 @@ const getVersions = (versionsRoot) => {
 
   return (fs.existsSync(root) && getDirectories(root)) || [];
 };
+const remove = (version, versionsRoot) => new Promise((resolve) => {
+  const versionPath = path.resolve(versionsRoot || config.VERSIONS_ROOT, version);
+  if (fs.existsSync(versionPath)) {
+    rimraf(versionPath, resolve);
+  } else {
+    throw new Error(`Version ${version} is not exists or not a valid version string('x.x.x')`);
+  }
+});
 module.exports = {
   getLatestVersion: (versionsRoot) => {
     const versions = getVersions(versionsRoot);
@@ -37,12 +45,15 @@ module.exports = {
     resolve(new Svrx(inlineOptions, optionsFromCli));
   }),
 
-  remove: (version) => new Promise((resolve) => {
-    const versionPath = path.resolve(config.VERSIONS_ROOT, version);
-    if (fs.existsSync(versionPath)) {
-      rimraf(versionPath, resolve);
-    } else {
-      throw new Error(`Version ${version} is not exists or not a valid version string('x.x.x')`);
-    }
+  remove,
+
+  cleanOlds: (newVersion, currentVersion, versionsRoot) => new Promise((resolve) => {
+    const versions = getVersions(versionsRoot);
+    const promises = versions
+      .filter((v) => {
+        const filepath = path.resolve(versionsRoot, v);
+        return v !== currentVersion && v !== newVersion && fs.existsSync(filepath);
+      }).map((v) => remove(v, versionsRoot));
+    Promise.all(promises).then(resolve);
   }),
 };

@@ -45,7 +45,8 @@ const getTags = async () => {
  * @returns {Promise<*>}
  */
 const install = async (version, options = {}) => {
-  const spinner = options.silent ? null : logger.progress('Installing svrx core package...');
+  const { silent, autoClean, current } = options;
+  const spinner = silent ? null : logger.progress('Installing svrx core package...');
   const task = fork(path.join(__dirname, './task.js'), {
     silent: true,
   });
@@ -57,7 +58,9 @@ const install = async (version, options = {}) => {
         if (ret.error) reject(new Error(ret.error));
         else resolve(ret);
       });
-      task.send({ version, versionsRoot: config.VERSIONS_ROOT });
+      task.send({
+        version, versionsRoot: config.VERSIONS_ROOT, autoClean, current,
+      });
     });
     if (spinner) spinner();
     return installedVersion;
@@ -67,7 +70,9 @@ const install = async (version, options = {}) => {
   }
 };
 
-const getInstallTask = async ({ version, versionsRoot }) => {
+const getInstallTask = async ({
+  version, versionsRoot, autoClean = false, current,
+}) => {
   const versions = await getVersions();
   versions.reverse();
 
@@ -85,6 +90,7 @@ const getInstallTask = async ({ version, versionsRoot }) => {
       loaded: false,
       prefix: tmpPath,
     },
+    forceInstall: true,
   };
 
   const result = await npm.install(options);
@@ -95,7 +101,16 @@ const getInstallTask = async ({ version, versionsRoot }) => {
   return new Promise((resolve) => {
     fs.copySync(svrxRoot, destFolder);
     fs.copySync(path.resolve(tmpPath, 'node_modules'), destFolderDependency);
-    resolve(installVersion);
+
+    if (autoClean) {
+      fs.writeFileSync(path.resolve(destFolder, '.autoclean'), '');
+      // auto clean old packages with .autoclean label
+      local.cleanOlds(installVersion, current, versionsRoot).then(() => {
+        resolve(installVersion);
+      });
+    } else {
+      resolve(installVersion);
+    }
   });
 };
 
