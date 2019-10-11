@@ -19,10 +19,10 @@
     "npm-shrinkwrap.json"
   ],
   "scripts": {
-    "postinstall": "node ./script/postinstall.js"
+    "prepare": "node ./script/postinstall.js"
   },
   "dependencies": {
-    "@svrx/util": "^1.0.2",
+    "@svrx/util": "^1.0.3",
     "commander": "^2.20.0",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.15",
@@ -33,9 +33,6 @@
     "update-notifier": "^3.0.0",
     "user-home": "^2.0.0",
     "yargs-parser": "^13.1.0"
-  },
-  "devDependencies": {
-    "expect.js": "^0.3.1"
   },
   "repository": {
     "type": "git",
