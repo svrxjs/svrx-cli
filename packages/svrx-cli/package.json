@@ -34,9 +34,6 @@
     "user-home": "^2.0.0",
     "yargs-parser": "^13.1.0"
   },
-  "devDependencies": {
-    "expect.js": "^0.3.1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/svrxjs/svrx-cli.git"
