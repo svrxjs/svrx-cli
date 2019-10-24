@@ -205,9 +205,14 @@ if (process.platform === 'win32') {
   rl.on('SIGINT', () => {
     process.emit('SIGINT');
   });
+  rl.on('SIGTERM', () => {
+    process.emit('SIGTERM');
+  });
 }
 
 process.on('SIGINT', () => {
-  // graceful shutdown
+  process.exit();
+});
+process.on('SIGTERM', () => {
   process.exit();
 });
