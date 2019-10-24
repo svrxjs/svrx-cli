@@ -196,10 +196,23 @@ updateNotifier({
   updateCheckInterval: 1000 * 60 * 60 * 24 * 7, // 1 week
 }).notify();
 
-// force stop
-function stop(code) {
-  process.exit(code);
+if (process.platform === 'win32') {
+  const rl = require('readline').createInterface({ // eslint-disable-line
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  rl.on('SIGINT', () => {
+    process.emit('SIGINT');
+  });
+  rl.on('SIGTERM', () => {
+    process.emit('SIGTERM');
+  });
 }
 
-process.on('SIGINT', stop.bind(null, 2));
-process.on('SIGTERM', stop.bind(null, 15));
+process.on('SIGINT', () => {
+  process.exit();
+});
+process.on('SIGTERM', () => {
+  process.exit();
+});
