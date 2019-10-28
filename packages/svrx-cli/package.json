@@ -22,7 +22,7 @@
     "prepare": "node ./script/postinstall.js"
   },
   "dependencies": {
-    "@svrx/util": "^1.0.3",
+    "@svrx/util": "^1.0.5-beta.0",
     "commander": "^2.20.0",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.15",
