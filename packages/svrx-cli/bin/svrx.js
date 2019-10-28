@@ -184,7 +184,9 @@ if (options.h || options.help) {
 } else {
   const cmd = cmds.length > 0 ? cmds[0] : 'serve'; // default cmd is 'serve'
   if (commands[cmd]) {
-    commands[cmd].exec(cmds.slice(1));
+    commands[cmd].exec(cmds.slice(1)).then(() => {
+      process.exit(0); // fix quit on windows
+    });
   } else {
     help();
   }
