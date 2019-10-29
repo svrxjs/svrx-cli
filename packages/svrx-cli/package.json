@@ -1,6 +1,6 @@
 {
   "name": "@svrx/cli",
-  "version": "1.0.2-beta.0",
+  "version": "1.0.2",
   "description": "CLI for svrx",
   "bin": {
     "svrx": "bin/svrx.js"
