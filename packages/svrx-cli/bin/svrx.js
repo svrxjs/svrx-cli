@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
+const os = require('os');
 const parse = require('yargs-parser');
 const { logger } = require('@svrx/util');
 const updateNotifier = require('update-notifier');
@@ -129,6 +130,8 @@ const version = async () => {
 
   console.log('CLI version:', require('../package').version); // eslint-disable-line
   console.log('Svrx version:', svrx.Svrx.getCurrentVersion());
+  console.log('Node version:', process.version);
+  console.log('OS version:', `${os.type()} ${os.release()} ${os.arch()}`);
   process.exit(0);
 };
 // help
