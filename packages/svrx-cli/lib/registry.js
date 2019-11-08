@@ -85,12 +85,8 @@ const getInstallTask = async ({
   const options = {
     name: '@svrx/svrx',
     version: installVersion,
+    global: true,
     path: tmpPath,
-    npmLoad: {
-      loaded: false,
-      prefix: tmpPath,
-    },
-    forceInstall: true,
   };
 
   const result = await npm.install(options);
