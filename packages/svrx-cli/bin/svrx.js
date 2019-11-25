@@ -92,17 +92,21 @@ const commands = {
     },
   },
   remove: {
-    description: 'Remove a specific < version > of svrx from local',
+    description: `Remove local packages of svrx core or plugins. eg: 
+                              svrx remove 1.0.0 (remove a core package)
+                              svrx remove webpack (remove a plugin)
+                              svrx remove webpack/1.0.0 
+                              svrx remove * (to remove all packages of svrx core and plugins)`,
     exec: async (params = []) => {
-      const version = cmds.length > 0 ? params[0] : undefined;
+      const packageToRemove = cmds.length > 0 ? params[0] : undefined;
 
-      if (!version) {
-        logger.notify('Please specific a version to remove, eg: svrx remove 1.0.0');
+      if (!packageToRemove) {
+        logger.notify('Please specific a package to remove, eg: svrx remove 1.0.0, svrx remove webpack');
         return;
       }
       try {
-        await Manager.remove(version);
-        logger.notify(`Successfully removed svrx@${version} from local`);
+        await Manager.remove(packageToRemove);
+        logger.notify(`Successfully removed ${packageToRemove === '*' ? 'all packages' : packageToRemove} from local`);
       } catch (e) {
         printErrorAndExit(e);
       }
