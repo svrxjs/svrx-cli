@@ -19,15 +19,7 @@
   },
   "dependencies": {
     "@svrx/util": "^1.1.0",
-    "commander": "^2.20.0",
-    "fs-extra": "^8.0.1",
-    "lodash": "^4.17.15",
-    "mkdirp": "^0.5.1",
-    "rimraf": "^3.0.0",
-    "semver": "^6.0.0",
-    "tmp": "^0.1.0",
     "update-notifier": "^3.0.0",
-    "user-home": "^2.0.0",
     "yargs-parser": "^13.1.0"
   },
   "repository": {
