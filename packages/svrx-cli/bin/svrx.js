@@ -60,7 +60,7 @@ const commands = {
         if (plugins && plugins.length > 0) {
           console.log('svrx Plugins Installed:\n');
           plugins.forEach((p) => {
-            console.log(`${p.name}: ${p.versions.join(', ')}\n`);
+            console.log(`${p.name}: ${p.versions.join(', ')}`);
           });
         }
       } catch (e) {
@@ -105,7 +105,9 @@ const commands = {
                               svrx remove 1.0.0 (remove a core package)
                               svrx remove webpack (remove a plugin)
                               svrx remove webpack/1.0.0 
-                              svrx remove * (to remove all packages of svrx core and plugins)`,
+                              svrx remove ALL (to remove all packages of svrx core and plugins)
+                              svrx remove CORE (to remove all packages of svrx core)
+                              svrx remove PLUGIN (to remove all packages of svrx plugins)`,
     exec: async (params = []) => {
       const packageToRemove = cmds.length > 0 ? params[0] : undefined;
 
@@ -117,9 +119,13 @@ const commands = {
       const name = packageToRemove === '*' ? 'all packages' : packageToRemove;
       const spinner = logger.spin(`Removing ${name}...`);
       try {
-        await pm.remove(packageToRemove);
+        const isSuccess = await pm.remove(packageToRemove);
         if (spinner) spinner();
-        logger.notify(`Successfully removed ${name} from local`);
+        if (isSuccess) {
+          logger.notify(`Successfully removed ${name} from local`);
+        } else {
+          logger.error('There\'s no such a directory to remove');
+        }
       } catch (e) {
         if (spinner) spinner();
         printErrorAndExit(e);
