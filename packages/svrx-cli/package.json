@@ -9,11 +9,7 @@
     "access": "public"
   },
   "main": "bin/svrx.js",
-  "directories": {
-    "lib": "lib"
-  },
   "files": [
-    "lib",
     "bin",
     "script",
     "npm-shrinkwrap.json"

@@ -2,10 +2,9 @@
 /* eslint-disable no-console */
 const os = require('os');
 const parse = require('yargs-parser');
-const { logger } = require('@svrx/util');
+const { PackageManagerCreator, logger, rcFileRead } = require('@svrx/util');
 const updateNotifier = require('update-notifier');
 const pkg = require('../package.json');
-const Manager = require('../lib');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -16,44 +15,53 @@ const printErrorAndExit = (error) => {
   process.exit(1);
 };
 
-// option parse
+// cli option parse
 const options = parse(process.argv.slice(2));
 const cmds = options._;
 delete options._;
 
-// command prepare
-const manager = new Manager();
-const prepareSvrx = async () => {
-  try {
-    logger.debug('Loading svrx...');
-    manager.loadConfigFile(); // load user config file
-    const svrx = await Manager.loadSvrx(options);
-    logger.debug('Successfully loaded svrx');
+// svrx config file option read
+const rcOptions = rcFileRead();
 
-    return svrx;
+// command prepare
+const pm = PackageManagerCreator({
+  version: options.svrx || rcOptions.svrx,
+  path: options.path || rcOptions.path,
+});
+const prepareSvrx = async () => {
+  const spinner = logger.spin('Loading svrx...');
+  try {
+    const svrxPkg = await pm.load();
+    const Svrx = svrxPkg.module;
+    if (spinner) spinner();
+    return new Svrx({}, options);
   } catch (e) {
+    if (spinner) spinner();
     printErrorAndExit(e);
     return null;
   }
 };
 const commands = {
   ls: {
-    description: 'List svrx versions installed locally',
+    description: 'List versions of svrx core and plugins installed locally',
     exec: async () => {
       try {
-        const versions = Manager.getLocalVersions();
-        const tags = await Manager.getRemoteTags();
-
+        const versions = pm.getLocalPackages();
         if (versions && versions.length > 0) {
-          console.log('Svrx Versions Installed:\n');
-          console.log(versions.join(', '), '\n');
-          if (tags.latest.indexOf('-') === -1 && tags.latest
-            !== versions[versions.length - 1]) {
-            console.log('There is a new version of svrx, run "svrx install" to install the latest one.');
-          }
+          const versionStrs = versions.map((v) => v.version);
+          console.log('svrx Versions Installed:\n');
+          console.log(versionStrs.join(', '), '\n');
         } else {
           console.log('There is no svrx installed.\n');
-          console.log('You can install the latest version using: "svrx install".');
+          console.log('You can install the latest version through: "svrx install".\n');
+        }
+
+        const plugins = pm.getLocalPlugins();
+        if (plugins && plugins.length > 0) {
+          console.log('svrx Plugins Installed:\n');
+          plugins.forEach((p) => {
+            console.log(`${p.name}: ${p.versions.join(', ')}\n`);
+          });
         }
       } catch (e) {
         printErrorAndExit(e);
@@ -61,49 +69,59 @@ const commands = {
     },
   },
   'ls-remote': {
-    description: 'List remote svrx versions available for install',
+    description: 'List remote svrx core versions available for install',
     exec: async () => {
+      const spinner = logger.spin('Searching for available versions...');
       try {
-        const versions = await Manager.getRemoteVersions();
-        const tags = await Manager.getRemoteTags();
+        const versions = await pm.getRemotePackages();
+        if (spinner) spinner();
 
         console.log('Available Svrx Versions:\n');
-        console.log(versions.join(', '));
-        console.log('\nTags:\n');
-        Object.keys(tags).forEach((tag) => {
-          console.log(`${tag}: ${tags[tag]}`);
-        });
+        console.log(versions.map((v) => v.version).join(', '));
       } catch (e) {
+        if (spinner) spinner();
         printErrorAndExit(e);
       }
     },
   },
   install: {
-    description: 'Download and install a specific < version > of svrx ',
+    description: 'Download and install a specific < version > of svrx core ',
     exec: async (params = []) => {
       const version = cmds.length > 0 ? params[0] : undefined;
-
+      const spinner = logger.spin('Installing svrx core package...');
       try {
-        await Manager.install(version);
-        logger.notify(`Successfully installed svrx@${version || 'latest'}`);
+        pm.set('version', version);
+        const installedPkg = await pm.load();
+        if (spinner) spinner();
+        logger.notify(`Successfully installed svrx@${installedPkg.version}`);
       } catch (e) {
+        if (spinner) spinner();
         printErrorAndExit(e);
       }
     },
   },
   remove: {
-    description: 'Remove a specific < version > of svrx from local',
+    description: `Remove local packages of svrx core or plugins. eg: 
+                              svrx remove 1.0.0 (remove a core package)
+                              svrx remove webpack (remove a plugin)
+                              svrx remove webpack/1.0.0 
+                              svrx remove * (to remove all packages of svrx core and plugins)`,
     exec: async (params = []) => {
-      const version = cmds.length > 0 ? params[0] : undefined;
+      const packageToRemove = cmds.length > 0 ? params[0] : undefined;
 
-      if (!version) {
-        logger.notify('Please specific a version to remove, eg: svrx remove 1.0.0');
+      if (!packageToRemove) {
+        logger.notify('Please specific a package to remove, eg: svrx remove 1.0.0, svrx remove webpack');
         return;
       }
+
+      const name = packageToRemove === '*' ? 'all packages' : packageToRemove;
+      const spinner = logger.spin(`Removing ${name}...`);
       try {
-        await Manager.remove(version);
-        logger.notify(`Successfully removed svrx@${version} from local`);
+        await pm.remove(packageToRemove);
+        if (spinner) spinner();
+        logger.notify(`Successfully removed ${name} from local`);
       } catch (e) {
+        if (spinner) spinner();
         printErrorAndExit(e);
       }
     },
@@ -112,14 +130,7 @@ const commands = {
     description: 'Start a develop server. This is the default command',
     exec: async () => {
       const svrx = await prepareSvrx();
-      svrx.start(() => {
-        // check and install latest version @background
-        Manager.install(null, {
-          silent: true,
-          autoClean: true,
-          current: svrx.Svrx.getCurrentVersion(),
-        });
-      });
+      svrx.start();
     },
   },
 };
