@@ -19,7 +19,8 @@
     "npm-shrinkwrap.json"
   ],
   "scripts": {
-    "prepare": "node ./script/postinstall.js"
+    "prepare": "node ./script/postinstall.js",
+    "preuninstall": "node ./script/preuninstall.js"
   },
   "dependencies": {
     "@svrx/util": "^1.0.7",
