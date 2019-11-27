@@ -28,9 +28,10 @@ const pm = PackageManagerCreator({
   version: options.svrx || rcOptions.svrx,
   path: options.path || rcOptions.path,
 });
-const prepareSvrx = async () => {
+const prepareSvrx = async ({ autoClean } = {}) => {
   const spinner = logger.spin('Loading svrx...');
   try {
+    if (!autoClean) pm.set('autoClean', false);
     const svrxPkg = await pm.load();
     const Svrx = svrxPkg.module;
     if (spinner) spinner();
@@ -91,6 +92,7 @@ const commands = {
       const spinner = logger.spin('Installing svrx core package...');
       try {
         pm.set('version', version);
+        pm.set('autoClean', false);
         const installedPkg = await pm.load();
         if (spinner) spinner();
         logger.notify(`Successfully installed svrx@${installedPkg.version}`);
@@ -143,7 +145,7 @@ const commands = {
 
 // version
 const version = async () => {
-  const svrx = await prepareSvrx();
+  const svrx = await prepareSvrx({ autoClean: false });
 
   console.log('CLI version:', require('../package').version); // eslint-disable-line
   console.log('Svrx version:', svrx.Svrx.getCurrentVersion());
@@ -153,7 +155,7 @@ const version = async () => {
 };
 // help
 const help = async (cmd) => {
-  const svrx = await prepareSvrx();
+  const svrx = await prepareSvrx({ autoClean: false });
   const single = cmd && commands[cmd];
 
   console.log('Usage: svrx [<command>] [options]\n');
