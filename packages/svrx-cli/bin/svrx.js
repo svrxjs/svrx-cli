@@ -124,7 +124,7 @@ const commands = {
         if (isSuccess) {
           logger.notify(`Successfully removed ${name} from local`);
         } else {
-          logger.error('There\'s no such a directory to remove');
+          logger.error(`Failed to remove ${name}`);
         }
       } catch (e) {
         if (spinner) spinner();
