@@ -31,7 +31,7 @@ const pm = PackageManagerCreator({
 const prepareSvrx = async ({ autoClean } = {}) => {
   const spinner = logger.spin('Loading svrx...');
   try {
-    if (!autoClean) pm.set('autoClean', false);
+    if (autoClean === false) pm.set('autoClean', false);
     const svrxPkg = await pm.load();
     const Svrx = svrxPkg.module;
     if (spinner) spinner();
