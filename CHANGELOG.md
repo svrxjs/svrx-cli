@@ -1,3 +1,9 @@
+## v1.1.2 (2020-02-27)
+
+#### :house: Internal
+* `svrx-cli`
+  * [#64](https://github.com/svrxjs/svrx-cli/pull/64) update @svrx/util to v1.1.4 ([@xuchaoying](https://github.com/xuchaoying))
+
 ## v1.1.0 (2019-12-02)
 
 #### :rocket: New Feature
