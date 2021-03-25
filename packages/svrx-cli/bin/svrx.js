@@ -103,10 +103,10 @@ const commands = {
     },
   },
   remove: {
-    description: `Remove local packages of svrx core or plugins. eg: 
+    description: `Remove local packages of svrx core or plugins. eg:
                               svrx remove 1.0.0 (remove a core package)
                               svrx remove webpack (remove a plugin)
-                              svrx remove webpack/1.0.0 
+                              svrx remove webpack/1.0.0
                               svrx remove ALL (to remove all packages of svrx core and plugins)
                               svrx remove CORE (to remove all packages of svrx core)
                               svrx remove PLUGIN (to remove all packages of svrx plugins)`,
@@ -197,7 +197,6 @@ const help = async (cmd) => {
   }
   process.exit(0);
 };
-
 
 if (options.h || options.help) {
   help(cmds.length > 0 ? cmds[0] : null);
