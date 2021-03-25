@@ -19,7 +19,7 @@
     "preuninstall": "node ./script/preuninstall.js"
   },
   "dependencies": {
-    "@svrx/util": "^1.1.4",
+    "@svrx/util": "^1.1.6",
     "update-notifier": "^3.0.0",
     "yargs-parser": "^13.1.0"
   },

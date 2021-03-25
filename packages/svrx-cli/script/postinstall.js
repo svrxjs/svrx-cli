@@ -1,6 +1,5 @@
 const { PackageManagerCreator, logger } = require('@svrx/util');
 
-
 const installSvrx = async () => {
   const spinner = logger.spin('Installing svrx core...');
   try {
