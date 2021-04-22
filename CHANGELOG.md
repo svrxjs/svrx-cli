@@ -1,3 +1,9 @@
+## v1.1.4 (2021-04-22)
+
+#### :bug: Bug Fix
+* `svrx-cli`
+  * update @svrx/util to v1.1.7 to fix install error on Windows ([@xuchaoying](https://github.com/xuchaoying))
+
 ## v1.1.3 (2021-03-25)
 
 #### :bug: Bug Fix
